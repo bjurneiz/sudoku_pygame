@@ -2,6 +2,7 @@
 import pygame
 from solver import solve, valid
 import time
+from tkinter import messagebox
 pygame.font.init()
 
 
@@ -139,9 +140,9 @@ class Cube:
 def redraw_window(win, board, time, strikes):
     win.fill((255,255,255))
     # Draw time
-    fnt = pygame.font.SysFont("comicsans", 40)
+    fnt = pygame.font.SysFont("comicsans", 15)
     text = fnt.render("Time: " + format_time(time), 1, (0,0,0))
-    win.blit(text, (540 - 160, 560))
+    win.blit(text, (540 - 100, 560))
     # Draw Strikes
     text = fnt.render("X " * strikes, 1, (255, 0, 0))
     win.blit(text, (20, 560))
@@ -159,6 +160,10 @@ def format_time(secs):
 
 
 def main():
+    pygame_icon = pygame.image.load('Joystick.png')
+    pygame.display.set_icon(pygame_icon)
+
+    messagebox.showinfo('Welcome!','This is a sudoku game where you have 10 tries to solve the puzzle. Good luck!')
     win = pygame.display.set_mode((540,600))
     pygame.display.set_caption("Sudoku")
     board = Grid(9, 9, 540, 540)
@@ -199,10 +204,17 @@ def main():
                     i, j = board.selected
                     if board.cubes[i][j].temp != 0:
                         if board.place(board.cubes[i][j].temp):
-                            print("Success")
+                            pass
                         else:
-                            print("Wrong")
                             strikes += 1
+                            if strikes == 10:
+                                # Show alertbox that you lost
+                                messagebox.showinfo('Game over!','You lost!')
+                                # Restart the game
+                                board = Grid(9, 9, 540, 540)
+                                strikes = 0
+                                start = time.time()
+
                         key = None
 
                         if board.is_finished():
