@@ -1,4 +1,4 @@
-# sudoku_pygame
+# Sudoku w/PyGame library
 Coding a sudoku game with pygame (Python). Followed a tutorial from techWithTimm and added som customization to the application myself like logo, maximum amount of tries, and message popups using Tkinter library.
 
 
